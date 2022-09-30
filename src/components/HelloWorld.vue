@@ -26,46 +26,74 @@ export default {
     return {
       text1:'үптежир',
       text2:'',
-      endings:['ар','ер','ур','үр','ир','ыр'],
+      endings:['ар','ер','ур','үр','ир','ыр','эр'],
+      ends2:[
+        { end:'яр', rep:'й', count:2 },
+        { end:'өер', rep:'өй', count:3 },
+      ],
       replace:[
         {b1:'ж', rep:'ш'},
         {b1:'д', rep:'т'},
         {b1:'б', rep:'п'},
+        {b1:'э', rep:'е'},
       ]
     }
   },
   methods:{
+    // rep_change(row){
+       
+      //  row.forEach(word=>{
+      //      this.ends2.forEach(end=>{
+      //         let w = word
+      //         let count = word.length
+      //         let count2 = end.count
+      //         let end2 =''
+      //         for (let i=count2;i<=1;i--){
+      //             end2=end2 +w[count-i]
+      //         }
+      //         console.log(end2)
+      //      })
+      //     //  console.log(word)
+      //  })
+
+    // },
     change(){
+        // функция для изменеия форм слов, из неопреденной формы в лемму
+
+
         let v = this.text1
-        var row = v.split('\n')
+        var row = v.split('\n')         // расплитим строковые данные из textarea в массив row
         // console.log(row)
-        var row2=[] 
-        for(let i=0; i<=row.length-1; i++){
-            var word = row[i]
-            let count = word.length
+        // this.rep_change(row)
+        
+        var row2=[]                       // новый массив куда будем пушить измененные слова
+        for(let i=0; i<=row.length-1; i++){    // цикл проходит по всему массиву слов
+            var word = row[i].trim()                  // word - слово текущей итерации 
+            let count = word.length            // длинна слова  
             // console.log(word)
             // console.log(count)
-            var haveends = false
-            for (let e=0;e<=this.endings.length-1;e++){
+            var haveends = false               // переменная для опред-я наличия окончаний в массиве endings в слове
+            for (let e=0;e<=this.endings.length-1;e++){          //   массив проходящий по окончаниям
               // console.log(this.endings[e])
-              if  (word[count-2]+word[count-1]===this.endings[e]){
-                   haveends = true   
+              if  (word[count-2]+word[count-1]===this.endings[e]){    //   если в слове есть одно из окончаний то делаем haveendings true и break цикла
+                   haveends = true             //
+                   break
               }
             }
-            if (haveends===true){
+            if (haveends===true){     // если true присваиваем новому слову word2 все буквы кроме окончания 
                 let word2=''
-                for (let b=0;b<=count-3; b++){
-                    word2 = word2 + word[b]
+                for (let b=0;b<=count-3; b++){   // массив по буквам слова
+                    word2 = word2 + word[b]      // складываем слово по буквам   
                 }
-                row2.push(word2) 
+                row2.push(word2)                 // пушим новое слово в новый массив
             } 
              
         }
-       this.text2 = row2.join('\n')
+       this.text2 = row2.join('\n')           // добавление измененных слов в textarea 2  
          
     },
     change2(){
-        
+        // эта функция применяет правило смены звонких букв на глухие при изменении формы слова
            
       
        let v = this.text2
